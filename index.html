@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #ffeff2; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; overflow: hidden; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 2px solid #ff4d6d; width: 300px; position: relative; }
+        h1 { color: #ff4d6d; font-size: 24px; }
+        input { padding: 10px; width: 80%; border-radius: 10px; border: 1px solid #ff4d6d; margin-bottom: 15px; }
+        .btn-group { display: flex; justify-content: space-around; margin-top: 20px; position: relative; height: 50px; }
+        button { background: #ff4d6d; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        #noBtn { position: absolute; transition: 0.2s; }
+        #resultLink { margin-top: 15px; word-break: break-all; color: #007bff; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <h1>Valentine Generator ❤️</h1>
+    <p>Enter Name:</p>
+    <input type="text" id="crushName" placeholder="Name here...">
+    <br>
+    <button onclick="generateLink()">Get Special Link 🔗</button>
+    <div id="resultLink"></div>
+</div>
+
+<script>
+    function generateLink() {
+        const name = document.getElementById('crushName').value;
+        if(name) {
+            const currentUrl = window.location.href.split('?')[0];
+            const finalUrl = currentUrl + "?msg=" + encodeURIComponent(name);
+            document.getElementById('resultLink').innerHTML = 
+                `<p>Share this link:</p><a href="${finalUrl}">${finalUrl}</a>`;
+        } else { alert("Please enter a name!"); }
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const msg = urlParams.get('msg');
+
+    if (msg) {
+        document.getElementById('mainCard').innerHTML = `
+            <h1>Hey ${msg}! 💖</h1>
+            <p>Do you love me?</p>
+            <div class="btn-group">
+                <button onclick="sayYes()">Yes</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+            </div>
+        `;
+    }
+
+    function moveButton() {
+        const btn = document.getElementById('noBtn');
+        const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+        btn.style.left = x + 'px';
+        btn.style.top = y + 'px';
+        btn.style.position = 'fixed';
+    }
+
+    function sayYes() {
+        document.getElementById('mainCard').innerHTML = `
+            <h1>Thank you Baby! 😘</h1>
+            <p>I knew it! ❤️🌹</p>
+            <p style="font-size: 50px;">🎆</p>
+        `;
+    }
+</script>
+</body>
+</html>
