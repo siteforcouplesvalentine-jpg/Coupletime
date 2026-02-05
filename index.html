@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+            background-color: #ffeff2; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            text-align: center; 
+            overflow: hidden; 
+        }
+        .card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            border: 2px solid #ff4d6d; 
+            width: 320px; 
+            position: relative; 
+            z-index: 10;
+        }
+        h1 { color: #ff4d6d; font-size: 24px; }
+        input { 
+            padding: 12px; 
+            width: 85%; 
+            border-radius: 10px; 
+            border: 1px solid #ff4d6d; 
+            margin-bottom: 15px; 
+            outline: none;
+        }
+        .btn-group { 
+            display: flex; 
+            justify-content: space-around; 
+            margin-top: 30px; 
+            position: relative; 
+            height: 60px; 
+        }
+        button { 
+            background: #ff4d6d; 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 16px;
+        }
+        #noBtn { 
+            position: absolute; 
+            transition: 0.15s ease; 
+            z-index: 999;
+        }
+        #resultLink { 
+            margin-top: 20px; 
+            word-break: break-all; 
+            font-size: 14px;
+        }
+        #resultLink a { color: #007bff; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <h1>Valentine Generator ❤️</h1>
+    <p>Enter your crush's name:</p>
+    <input type="text" id="crushName" placeholder="Name here...">
+    <br>
+    <button onclick="generateLink()">Get Special Link 🔗</button>
+    <div id="resultLink"></div>
+</div>
+
+<script>
+    function generateLink() {
+        const name = document.getElementById('crushName').value;
+        if(name) {
+            const currentUrl = window.location.href.split('?')[0];
+            const finalUrl = currentUrl + "?msg=" + encodeURIComponent(name);
+            document.getElementById('resultLink').innerHTML = 
+                `<p>Share this link:</p><a href="${finalUrl}">${finalUrl}</a>`;
+        } else { 
+            alert("Please enter a name first!"); 
+        }
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const msg = urlParams.get('msg');
+
+    if (msg) {
+        document.getElementById('mainCard').innerHTML = `
+            <h1>Hey ${msg}! 💖</h1>
+            <p>Do you love me?</p>
+            <div class="btn-group">
+                <button onclick="sayYes()">Yes</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="noClick()" ontouchstart="moveButton()">No</button>
+            </div>
+        `;
+    }
+
+    function moveButton() {
+        const btn = document.getElementById('noBtn');
+        // Screen-inte ullil thanne button nilkaanulla logic
+        const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
+        const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
+        
+        btn.style.position = 'fixed';
+        btn.style.left = x + 'px';
+        btn.style.top = y + 'px';
+    }
+
+    function noClick() {
+        // Mobile-il click cheythaalum button odikkalikkum
+        moveButton();
+    }
+
+    function sayYes() {
+        document.getElementById('mainCard').innerHTML = `
+            <h1>Thank you Baby! 😘</h1>
+            <p>I knew it! You're mine forever. ❤️🌹</p>
+            <p style="font-size: 60px;">🎈✨</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
+
